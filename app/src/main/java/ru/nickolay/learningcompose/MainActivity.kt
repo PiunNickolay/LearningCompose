@@ -18,30 +18,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            LearningComposeTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            UserInfo()
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun UserInfo() {
+    val name = "Nick"
+    val age = 22
+    Text(text = "Hello, $name, your age: $age")
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LearningComposeTheme {
-        Greeting("Android")
-    }
-}
