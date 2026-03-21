@@ -1,10 +1,9 @@
-package ru.nickolay.learningcompose.ui.theme
+package ru.nickolay.learningcompose
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -32,8 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.nickolay.learningcompose.R
-import kotlin.io.path.Path
 
 @Composable
 @Preview
@@ -72,9 +68,9 @@ fun InstagramProfileCard() {
                     contentScale = ContentScale.FillHeight,
 
                     )
-                TwoBoxes(title = "Posts", value = "6,950")
-                TwoBoxes(title = "Followers", value = "436M")
-                TwoBoxes(title = "Following", value = "76")
+                UserStatistics(title = "Posts", value = "6,950")
+                UserStatistics(title = "Followers", value = "436M")
+                UserStatistics(title = "Following", value = "76")
             }
             Text(
                 text = "Vkontakte",
@@ -95,7 +91,7 @@ fun InstagramProfileCard() {
 }
 
 @Composable
-fun TwoBoxes(
+fun UserStatistics(
     title: String,
     value: String
 ) {
@@ -120,7 +116,7 @@ fun TwoBoxes(
 @Composable
 @Preview
 fun PreviewCardLight() {
-    LearningComposeTheme(
+    _root_ide_package_.ru.nickolay.learningcompose.ui.theme.LearningComposeTheme(
         darkTheme = false
     ) {
         InstagramProfileCard()
@@ -130,7 +126,7 @@ fun PreviewCardLight() {
 @Composable
 @Preview
 fun PreviewCardDark() {
-    LearningComposeTheme(
+    _root_ide_package_.ru.nickolay.learningcompose.ui.theme.LearningComposeTheme(
         darkTheme = true
     ) {
         InstagramProfileCard()

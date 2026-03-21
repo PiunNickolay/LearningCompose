@@ -11,7 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import ru.nickolay.learningcompose.ui.theme.InstagramProfileCard
+import ru.nickolay.learningcompose.InstagramProfileCard
 import ru.nickolay.learningcompose.ui.theme.LearningComposeTheme
 
 
