@@ -6,11 +6,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
@@ -36,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
@@ -49,8 +55,34 @@ class MainActivity : ComponentActivity() {
         val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         enableEdgeToEdge()
         setContent {
-            LearningComposeTheme() {
-                InstagramProfileCard(viewModel)
+            Test(viewModel)
+        }
+    }
+}
+
+@Composable
+fun Test(viewModel: MainViewModel) {
+    LearningComposeTheme() {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            LazyColumn {
+                item {
+                    Text(
+                        text = "TITLE",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
+                }
+                items(3) {
+                    InstagramProfileCard(viewModel)
+                }
+                item { Image(painter = painterResource(ru.nickolay.learningcompose.R.drawable.ic_vk_logo), contentDescription = null) }
+                items(5) {
+                    InstagramProfileCard(viewModel)
+                }
             }
         }
     }

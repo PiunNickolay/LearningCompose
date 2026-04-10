@@ -2,6 +2,7 @@ package ru.nickolay.learningcompose
 
 import android.media.Image
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,30 +27,39 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.nickolay.learningcompose.domain.FeedPost
+import ru.nickolay.learningcompose.domain.StatisticItem
+import ru.nickolay.learningcompose.domain.StatisticType
 
 @Composable
-fun Remember() {
-    Card() {
+fun Remember(
+    modifier: Modifier = Modifier,
+    feedPost: FeedPost,
+    onStatisticksClickListener: (StatisticItem)->Unit
+) {
+    Card(modifier = modifier) {
         Column(modifier = Modifier.padding(8.dp)) {
-            PostHeader()
+            PostHeader(feedPost)
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Кабаныч, когда узнал, что если не платить сотрудникам, то они умрут с голода")
+            Text(text = feedPost.contentText)
             Spacer(modifier = Modifier.height(8.dp))
             Image(
-                modifier = Modifier.fillMaxWidth(),
-                painter = painterResource(R.drawable.post_content_image),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                painter = painterResource(feedPost.contentImage),
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Statistics()
+            Statistics(feedPost.statistic, onItemClickListener = onStatisticksClickListener)
         }
 
     }
 }
 
 @Composable
-private fun PostHeader() {
+private fun PostHeader(feedPost: FeedPost) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -59,7 +69,7 @@ private fun PostHeader() {
             modifier = Modifier
                 .size(50.dp)
                 .clip(CircleShape),
-            painter = painterResource(R.drawable.post_comunity_thumbnail),
+            painter = painterResource(feedPost.avatar),
             contentDescription = " "
         )
         Spacer(modifier = Modifier.width(8.dp))
@@ -67,9 +77,9 @@ private fun PostHeader() {
             modifier = Modifier
                 .weight(1f)
         ) {
-            Text(text = "/dev/null")
+            Text(text = feedPost.publicName)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "14:00")
+            Text(text = feedPost.publishedTime)
         }
         Icon(
             painterResource(R.drawable.ic_menu),
@@ -80,30 +90,57 @@ private fun PostHeader() {
 }
 
 @Composable
-private fun Statistics() {
+private fun Statistics(
+    statisticks: List<StatisticItem>,
+    onItemClickListener: (StatisticItem) -> Unit
+) {
     Row {
         Row(
             modifier = Modifier.weight(1f)
         ) {
-            IconAndText(R.drawable.ic_views_count, "10000")
+            val viewsItem = statisticks.getItemByType(StatisticType.VIEWS)
+            IconAndText(
+                R.drawable.ic_views_count,
+                viewsItem.count.toString(),
+                { onItemClickListener(viewsItem) })
         }
         Row(
             modifier = Modifier.weight(1f),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            IconAndText(R.drawable.ic_share, "977")
-            IconAndText(R.drawable.ic_comment, "50")
-            IconAndText(R.drawable.ic_like, "1000")
+            val shareItem = statisticks.getItemByType(StatisticType.SHARE)
+            IconAndText(
+                R.drawable.ic_share,
+                shareItem.count.toString(),
+                { onItemClickListener(shareItem) })
+            val commentItem = statisticks.getItemByType(StatisticType.COMMENT)
+            IconAndText(
+                R.drawable.ic_comment,
+                commentItem.count.toString(),
+                { onItemClickListener(commentItem) })
+            val likeItem = statisticks.getItemByType(StatisticType.LIKE)
+            IconAndText(
+                R.drawable.ic_like,
+                likeItem.count.toString(),
+                { onItemClickListener(likeItem) })
         }
     }
+}
+
+private fun List<StatisticItem>.getItemByType(type: StatisticType): StatisticItem {
+    return this.find { it.type == type } ?: throw IllegalArgumentException()
 }
 
 @Composable
 private fun IconAndText(
     iconrResId: Int,
-    text: String
+    text: String,
+    onItemClickListener: () -> Unit
 ) {
     Row(
+        modifier = Modifier.clickable {
+            onItemClickListener()
+        },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(painter = painterResource(id = iconrResId), contentDescription = null)
@@ -115,5 +152,20 @@ private fun IconAndText(
 @Preview
 @Composable
 fun RememberPreview() {
-    Remember()
+    Remember(
+        feedPost = FeedPost(
+            "/dev/null",
+            "14:00",
+            R.drawable.post_comunity_thumbnail,
+            "Кабаныч, когда узнал, что если не платить сотрудникам, то они умрут с голода",
+            R.drawable.post_content_image,
+            listOf(
+                StatisticItem(StatisticType.LIKE, 500),
+                StatisticItem(StatisticType.SHARE, 100),
+                StatisticItem(StatisticType.COMMENT, 50),
+                StatisticItem(StatisticType.VIEWS, 966)
+            )
+        ),
+        onStatisticksClickListener = {}
+    )
 }
