@@ -1,64 +1,34 @@
 package ru.nickolay.learningcompose.navigation
 
-import android.graphics.drawable.Icon
-import androidx.compose.foundation.layout.Box
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import kotlinx.coroutines.launch
-import ru.nickolay.learningcompose.R
+import androidx.compose.ui.unit.dp
+import ru.nickolay.learningcompose.Remember
+import ru.nickolay.learningcompose.domain.FeedPost
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun vkNewsClient() {
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
-    val fabIsVisisble = remember {
-        mutableStateOf(true)
+    val feedPost = remember {
+        mutableStateOf(FeedPost())
     }
     Scaffold(
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
-        floatingActionButton = {
-            if (fabIsVisisble.value == true) {
-                FloatingActionButton(
-                    onClick = {
-                        scope.launch {
-                            val action = snackbarHostState.showSnackbar(
-                                message = "This is snackbar",
-                                actionLabel = "Hide FAB",
-                                duration = SnackbarDuration.Long
-                            )
-                            if (action == SnackbarResult.ActionPerformed) {
-                                fabIsVisisble.value = false
-                            }
-                        }
-                    }
-                ) {
-                    Icon(painter = painterResource(R.drawable.ic_like_selected), null)
-                }
-            }
-        },
         bottomBar = {
             NavigationBar {
                 var selectedItemPosition = remember {
@@ -83,7 +53,23 @@ fun vkNewsClient() {
             }
         }
     ) {
-        Box(Modifier.padding(it))
+        Remember(
+            modifier = Modifier.padding(8.dp),
+            feedPost = feedPost.value,
+            onStatisticksClickListener = { newItem ->
+                val oldStatisticks = feedPost.value.statistic
+                val newStatisticks = oldStatisticks.toMutableList().apply {
+                    replaceAll { oldItem ->
+                        if (oldItem.type == newItem.type) {
+                            oldItem.copy(count = oldItem.count+1)
+                        } else {
+                            oldItem
+                        }
+                    }
+                }
+                feedPost.value = feedPost.value.copy(statistic = newStatisticks)
+            }
+        )
     }
 }
 
