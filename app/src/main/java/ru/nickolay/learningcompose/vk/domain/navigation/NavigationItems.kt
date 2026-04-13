@@ -1,4 +1,4 @@
-package ru.nickolay.learningcompose.navigation
+package ru.nickolay.learningcompose.vk.domain.navigation
 
 
 import android.media.Image

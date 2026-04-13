@@ -1,4 +1,4 @@
-package ru.nickolay.learningcompose
+package ru.nickolay.learningcompose.inst
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -32,10 +32,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.nickolay.learningcompose.inst.MainViewModel
+import ru.nickolay.learningcompose.R
 
 @Composable
-fun InstagramProfileCard(viewModel: MainViewModel) {
-    val isFollowed by viewModel.isFollowing.observeAsState(false)
+fun InstagramProfileCard(model: InstagramModel, onClick: (InstagramModel)-> Unit) {
     Card(
         modifier = Modifier.padding(8.dp),
         colors = CardColors(
@@ -75,14 +76,14 @@ fun InstagramProfileCard(viewModel: MainViewModel) {
                 UserStatistics(title = "Following", value = "76")
             }
             Text(
-                text = "Vkontakte",
+                text = "Vkontakte ${model.id}",
                 fontSize = 32.sp,
                 fontFamily = FontFamily.Cursive
             )
-            Text(text = "#YoursToMake", fontSize = 14.sp)
+            Text(text = "${model.title}", fontSize = 14.sp)
             Text(text = "www.vk.com", fontSize = 14.sp)
-            FollowButton(isFollowed = isFollowed) {
-                viewModel.changeFollowingStatus()
+            FollowButton(isFollowed = model.isFollowed) {
+                onClick(model)
             }
         }
     }
