@@ -1,6 +1,5 @@
-package ru.nickolay.learningcompose
+package ru.nickolay.learningcompose.vk.domain
 
-import android.media.Image
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,15 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import ru.nickolay.learningcompose.domain.FeedPost
-import ru.nickolay.learningcompose.domain.StatisticItem
-import ru.nickolay.learningcompose.domain.StatisticType
+import ru.nickolay.learningcompose.R
 
 @Composable
 fun Remember(
