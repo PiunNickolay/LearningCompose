@@ -9,6 +9,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -19,13 +20,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.nickolay.learningcompose.vk.domain.Remember
 import ru.nickolay.learningcompose.vk.domain.FeedPost
+import ru.nickolay.learningcompose.vk.domain.VKViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun vkNewsClient() {
-    val feedPost = remember {
-        mutableStateOf(FeedPost())
-    }
+fun vkNewsClient(viewModel: VKViewModel) {
+
     Scaffold(
         bottomBar = {
             NavigationBar {
@@ -51,22 +51,15 @@ fun vkNewsClient() {
             }
         }
     ) {
+        val feedPost = viewModel.feedPost.observeAsState(FeedPost())
+
         Remember(
             modifier = Modifier.padding(8.dp),
             feedPost = feedPost.value,
-            onStatisticksClickListener = { newItem ->
-                val oldStatisticks = feedPost.value.statistic
-                val newStatisticks = oldStatisticks.toMutableList().apply {
-                    replaceAll { oldItem ->
-                        if (oldItem.type == newItem.type) {
-                            oldItem.copy(count = oldItem.count+1)
-                        } else {
-                            oldItem
-                        }
-                    }
-                }
-                feedPost.value = feedPost.value.copy(statistic = newStatisticks)
-            }
+            onLikeClickListener =  viewModel::update,
+            onCommentClickListener = { viewModel.update(it) },
+            onShareClickListener = { viewModel.update(it) },
+            onViewsClickListener = viewModel::update
         )
     }
 }
@@ -74,5 +67,5 @@ fun vkNewsClient() {
 @Preview
 @Composable
 fun PreviewVkNewsClient() {
-    vkNewsClient()
+    vkNewsClient(viewModel = VKViewModel())
 }
