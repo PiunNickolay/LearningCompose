@@ -35,15 +35,17 @@ import kotlinx.coroutines.launch
 import ru.nickolay.learningcompose.inst.InstagramProfileCard
 import ru.nickolay.learningcompose.inst.MainViewModel
 import ru.nickolay.learningcompose.ui.theme.LearningComposeTheme
+import ru.nickolay.learningcompose.vk.domain.VKViewModel
+import ru.nickolay.learningcompose.vk.domain.navigation.vkNewsClient
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        val viewModel = ViewModelProvider(this)[VKViewModel::class.java]
         enableEdgeToEdge()
         setContent {
-            Test(viewModel)
+            vkNewsClient(viewModel)
         }
     }
 }
