@@ -35,15 +35,17 @@ import kotlinx.coroutines.launch
 import ru.nickolay.learningcompose.inst.InstagramProfileCard
 import ru.nickolay.learningcompose.inst.MainViewModel
 import ru.nickolay.learningcompose.ui.theme.LearningComposeTheme
+import ru.nickolay.learningcompose.vk.domain.VKViewModel
+import ru.nickolay.learningcompose.vk.domain.navigation.VKNewsClient
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        val viewModel = ViewModelProvider(this)[VKViewModel::class.java]
         enableEdgeToEdge()
         setContent {
-            Test(viewModel)
+            VKNewsClient(viewModel)
         }
     }
 }
@@ -57,25 +59,22 @@ fun Test(viewModel: MainViewModel) {
                 .background(MaterialTheme.colorScheme.background)
         ) {
             val models = viewModel.models.observeAsState(listOf())
-            LazyColumn() {
-                items(models.value, key = {it.id}) { model ->
-                    val dismissBoxState = rememberSwipeToDismissBoxState()
-
-                    LaunchedEffect(dismissBoxState.currentValue) {
-                        if (dismissBoxState.currentValue == SwipeToDismissBoxValue.EndToStart) {
-                            viewModel.delete(model)
-                        }
+            LazyColumn {
+                items(models.value) { model ->
+                    val dismissState = rememberSwipeToDismissBoxState()
+                    if (dismissState.currentValue == SwipeToDismissBoxValue.EndToStart) {
+                        viewModel.delete(model)
                     }
                     SwipeToDismissBox(
-                        state = dismissBoxState,
-                        enableDismissFromStartToEnd = false,
+                        state = dismissState,
                         enableDismissFromEndToStart = true,
+                        enableDismissFromStartToEnd = false,
                         backgroundContent = {
                             Box(
                                 modifier = Modifier
                                     .padding(16.dp)
                                     .fillMaxSize()
-                                    .background(color = Color.Red.copy(alpha = 0.4f)),
+                                    .background(Color.Red.copy(alpha = 0.5f)),
                                 contentAlignment = Alignment.CenterEnd
                             ) {
                                 Text(
@@ -91,7 +90,8 @@ fun Test(viewModel: MainViewModel) {
                             model = model,
                             onClick = {
                                 viewModel.followedModifier(model)
-                            })
+                            }
+                        )
                     }
                 }
             }

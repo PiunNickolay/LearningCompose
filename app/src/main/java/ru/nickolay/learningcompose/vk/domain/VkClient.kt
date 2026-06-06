@@ -30,7 +30,10 @@ import ru.nickolay.learningcompose.R
 fun Remember(
     modifier: Modifier = Modifier,
     feedPost: FeedPost,
-    onStatisticksClickListener: (StatisticItem)->Unit
+    onLikeClickListener: (StatisticItem) -> Unit,
+    onShareClickListener: (StatisticItem) -> Unit,
+    onViewsClickListener: (StatisticItem) -> Unit,
+    onCommentClickListener: (StatisticItem) -> Unit
 ) {
     Card(modifier = modifier) {
         Column(modifier = Modifier.padding(8.dp)) {
@@ -47,7 +50,13 @@ fun Remember(
                 contentScale = ContentScale.FillWidth
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Statistics(feedPost.statistic, onItemClickListener = onStatisticksClickListener)
+            Statistics(
+                feedPost.statistic,
+                onLikeClickListener = onLikeClickListener,
+                onCommentClickListener = onCommentClickListener,
+                onViewsClickListener = onViewsClickListener,
+                onShareClickListener = onShareClickListener
+            )
         }
 
     }
@@ -87,7 +96,10 @@ private fun PostHeader(feedPost: FeedPost) {
 @Composable
 private fun Statistics(
     statisticks: List<StatisticItem>,
-    onItemClickListener: (StatisticItem) -> Unit
+    onLikeClickListener: (StatisticItem) -> Unit,
+    onShareClickListener: (StatisticItem) -> Unit,
+    onViewsClickListener: (StatisticItem) -> Unit,
+    onCommentClickListener: (StatisticItem) -> Unit
 ) {
     Row {
         Row(
@@ -97,7 +109,7 @@ private fun Statistics(
             IconAndText(
                 R.drawable.ic_views_count,
                 viewsItem.count.toString(),
-                { onItemClickListener(viewsItem) })
+                { onViewsClickListener(viewsItem) })
         }
         Row(
             modifier = Modifier.weight(1f),
@@ -107,17 +119,17 @@ private fun Statistics(
             IconAndText(
                 R.drawable.ic_share,
                 shareItem.count.toString(),
-                { onItemClickListener(shareItem) })
+                { onShareClickListener(shareItem) })
             val commentItem = statisticks.getItemByType(StatisticType.COMMENT)
             IconAndText(
                 R.drawable.ic_comment,
                 commentItem.count.toString(),
-                { onItemClickListener(commentItem) })
+                { onCommentClickListener(commentItem) })
             val likeItem = statisticks.getItemByType(StatisticType.LIKE)
             IconAndText(
                 R.drawable.ic_like,
                 likeItem.count.toString(),
-                { onItemClickListener(likeItem) })
+                { onLikeClickListener(likeItem) })
         }
     }
 }
@@ -149,6 +161,7 @@ private fun IconAndText(
 fun RememberPreview() {
     Remember(
         feedPost = FeedPost(
+            id = 0,
             "/dev/null",
             "14:00",
             R.drawable.post_comunity_thumbnail,
@@ -161,6 +174,9 @@ fun RememberPreview() {
                 StatisticItem(StatisticType.VIEWS, 966)
             )
         ),
-        onStatisticksClickListener = {}
+        onLikeClickListener = {},
+        onShareClickListener = {},
+        onViewsClickListener = {},
+        onCommentClickListener = {}
     )
 }
