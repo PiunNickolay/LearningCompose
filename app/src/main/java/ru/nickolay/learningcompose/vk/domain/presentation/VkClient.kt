@@ -1,4 +1,4 @@
-package ru.nickolay.learningcompose.vk.domain
+package ru.nickolay.learningcompose.vk.domain.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -25,6 +25,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.nickolay.learningcompose.R
+import ru.nickolay.learningcompose.vk.domain.model.StatisticItem
+import ru.nickolay.learningcompose.vk.domain.model.StatisticType
+import ru.nickolay.learningcompose.vk.domain.model.FeedPost
 
 @Composable
 fun Remember(

@@ -1,8 +1,11 @@
-package ru.nickolay.learningcompose.vk.domain
+package ru.nickolay.learningcompose.vk.domain.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ru.nickolay.learningcompose.vk.domain.model.FeedPost
+import ru.nickolay.learningcompose.vk.domain.model.StatisticItem
+import ru.nickolay.learningcompose.vk.domain.navigation.NavigationItems
 
 class VKViewModel: ViewModel() {
     private val sourceList = mutableListOf<FeedPost>().apply {
@@ -13,6 +16,12 @@ class VKViewModel: ViewModel() {
     private val _feedPosts = MutableLiveData<List<FeedPost>>(sourceList)
     val feedPosts: LiveData<List<FeedPost>> = _feedPosts
 
+    private val _selectedItem = MutableLiveData<NavigationItems>(NavigationItems.Home)
+    val selectedItem: LiveData<NavigationItems> = _selectedItem
+
+    fun selectItem(item: NavigationItems) {
+        _selectedItem.value = item
+    }
     fun updateCount(feedPost: FeedPost, item: StatisticItem) {
         val oldPosts = feedPosts.value?.toMutableList() ?: mutableListOf()
         val oldStatistics = feedPost.statistic

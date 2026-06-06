@@ -1,4 +1,4 @@
-package ru.nickolay.learningcompose.vk.domain
+package ru.nickolay.learningcompose.vk.domain.model
 
 import ru.nickolay.learningcompose.R
 
