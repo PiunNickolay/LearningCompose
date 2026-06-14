@@ -1,4 +1,4 @@
-package ru.nickolay.learningcompose.vk.domain
+package ru.nickolay.learningcompose.vk.domain.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column

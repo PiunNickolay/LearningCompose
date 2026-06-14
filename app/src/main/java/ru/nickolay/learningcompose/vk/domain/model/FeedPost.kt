@@ -1,8 +1,9 @@
-package ru.nickolay.learningcompose.vk.domain
+package ru.nickolay.learningcompose.vk.domain.model
 
 import ru.nickolay.learningcompose.R
 
 data class FeedPost(
+    val id: Int,
     val publicName: String = "/dev/null",
     val publishedTime: String = "14:00",
     val avatar: Int = R.drawable.post_comunity_thumbnail,

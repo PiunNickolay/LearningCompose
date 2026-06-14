@@ -1,4 +1,4 @@
-package ru.nickolay.learningcompose.vk.domain
+package ru.nickolay.learningcompose.vk.domain.model
 
 data class StatisticItem(
     val type: StatisticType,

@@ -1,4 +1,4 @@
-package ru.nickolay.learningcompose.vk.domain
+package ru.nickolay.learningcompose.vk.domain.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -25,6 +25,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.nickolay.learningcompose.R
+import ru.nickolay.learningcompose.vk.domain.model.StatisticItem
+import ru.nickolay.learningcompose.vk.domain.model.StatisticType
+import ru.nickolay.learningcompose.vk.domain.model.FeedPost
 
 @Composable
 fun Remember(
@@ -56,7 +59,7 @@ fun Remember(
                 onCommentClickListener = onCommentClickListener,
                 onViewsClickListener = onViewsClickListener,
                 onShareClickListener = onShareClickListener
-                )
+            )
         }
 
     }
@@ -95,7 +98,7 @@ private fun PostHeader(feedPost: FeedPost) {
 
 @Composable
 private fun Statistics(
-    statistics: List<StatisticItem>,
+    statisticks: List<StatisticItem>,
     onLikeClickListener: (StatisticItem) -> Unit,
     onShareClickListener: (StatisticItem) -> Unit,
     onViewsClickListener: (StatisticItem) -> Unit,
@@ -105,7 +108,7 @@ private fun Statistics(
         Row(
             modifier = Modifier.weight(1f)
         ) {
-            val viewsItem = statistics.getItemByType(StatisticType.VIEWS)
+            val viewsItem = statisticks.getItemByType(StatisticType.VIEWS)
             IconAndText(
                 R.drawable.ic_views_count,
                 viewsItem.count.toString(),
@@ -115,17 +118,17 @@ private fun Statistics(
             modifier = Modifier.weight(1f),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            val shareItem = statistics.getItemByType(StatisticType.SHARE)
+            val shareItem = statisticks.getItemByType(StatisticType.SHARE)
             IconAndText(
                 R.drawable.ic_share,
                 shareItem.count.toString(),
                 { onShareClickListener(shareItem) })
-            val commentItem = statistics.getItemByType(StatisticType.COMMENT)
+            val commentItem = statisticks.getItemByType(StatisticType.COMMENT)
             IconAndText(
                 R.drawable.ic_comment,
                 commentItem.count.toString(),
                 { onCommentClickListener(commentItem) })
-            val likeItem = statistics.getItemByType(StatisticType.LIKE)
+            val likeItem = statisticks.getItemByType(StatisticType.LIKE)
             IconAndText(
                 R.drawable.ic_like,
                 likeItem.count.toString(),
@@ -161,6 +164,7 @@ private fun IconAndText(
 fun RememberPreview() {
     Remember(
         feedPost = FeedPost(
+            id = 0,
             "/dev/null",
             "14:00",
             R.drawable.post_comunity_thumbnail,
