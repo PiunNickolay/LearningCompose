@@ -28,8 +28,7 @@ import ru.nickolay.learningcompose.inst.MainViewModel
 import ru.nickolay.learningcompose.ui.theme.LearningComposeTheme
 import ru.nickolay.learningcompose.vk.domain.viewModel.VKViewModel
 import ru.nickolay.learningcompose.vk.domain.presentation.VKNewsClient
-import ru.nickolay.learningcompose.vk.domain.VKViewModel
-import ru.nickolay.learningcompose.vk.domain.navigation.vkNewsClient
+
 
 
 class MainActivity : ComponentActivity() {
@@ -38,7 +37,6 @@ class MainActivity : ComponentActivity() {
         val viewModel = ViewModelProvider(this)[VKViewModel::class.java]
         enableEdgeToEdge()
         setContent {
-            vkNewsClient(viewModel)
             VKNewsClient(viewModel)
         }
     }
