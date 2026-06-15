@@ -3,6 +3,7 @@ package ru.nickolay.learningcompose.vk.domain.presentation
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -53,7 +54,7 @@ fun VKNewsClient(viewModel: VKViewModel) {
     ) {
         AppNavGraph(
             navHostController = navigationState.navHostController,
-            homeScreen = { MainScreen(viewModel) },
+            homeScreen = { MainScreen(viewModel, paddingValues = PaddingValues()) },
             profileScreen = {
                 Column(
                     modifier = Modifier.fillMaxSize(),
