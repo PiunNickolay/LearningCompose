@@ -1,8 +1,6 @@
 package ru.nickolay.learningcompose.vk.domain.navigation
 
 
-import android.media.Image
-import androidx.compose.ui.res.painterResource
 import ru.nickolay.learningcompose.R
 
 sealed class NavigationItems(
