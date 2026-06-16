@@ -25,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import ru.nickolay.learningcompose.vk.domain.model.FeedPost
 import ru.nickolay.learningcompose.vk.domain.navigation.AppNavGraph
 import ru.nickolay.learningcompose.vk.domain.navigation.NavigationItems
+import ru.nickolay.learningcompose.vk.domain.navigation.Screens
 import ru.nickolay.learningcompose.vk.domain.navigation.rememberNavigationState
 import ru.nickolay.learningcompose.vk.domain.presentation.MainScreen.CommentScreen
 import ru.nickolay.learningcompose.vk.domain.presentation.MainScreen.MainScreen
@@ -62,23 +63,22 @@ fun VKNewsClient() {
     ) {
         AppNavGraph(
             navHostController = navigationState.navHostController,
-            homeScreen = {
-                if (commentsToPost.value == null) {
-                    MainScreen(
-                        paddingValues = PaddingValues(),
-                        onCommentClickListener = {
-                            commentsToPost.value = it
-                        }
-                    )
-                } else {
-                    CommentScreen(
-                        onBackPressed = {
-                            commentsToPost.value = null
-                        },
-                        feedPost = commentsToPost.value!!
-                    )
-                }
-
+            newsScreen = {
+                MainScreen(
+                    paddingValues = PaddingValues(),
+                    onCommentClickListener = {
+                        commentsToPost.value = it
+                        navigationState.navigateTo(Screens.Comments.route)
+                    }
+                )
+            },
+            commentsScreen = {
+                CommentScreen(
+                    onBackPressed = {
+                        commentsToPost.value = null
+                    },
+                    feedPost = commentsToPost.value!!
+                )
             },
             profileScreen = {
                 Column(
