@@ -22,10 +22,10 @@ fun AppNavGraph(
             homeScreen()
         }
         composable(Screens.Favorite.route) {
-            profileScreen()
+            favoriteScreen()
         }
         composable(Screens.Profile.route) {
-            favoriteScreen()
+            profileScreen()
         }
     }
 }
