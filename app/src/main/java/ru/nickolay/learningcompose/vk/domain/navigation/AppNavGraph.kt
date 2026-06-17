@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import ru.nickolay.learningcompose.vk.domain.model.FeedPost
 import ru.nickolay.learningcompose.vk.domain.navigation.Screens
 
 
@@ -14,7 +15,7 @@ fun AppNavGraph(
     newsScreen: @Composable () -> Unit,
     profileScreen: @Composable () -> Unit,
     favoriteScreen: @Composable () -> Unit,
-    commentsScreen: @Composable () -> Unit
+    commentsScreen: @Composable (FeedPost) -> Unit
 ) {
     NavHost(
         navController = navHostController,

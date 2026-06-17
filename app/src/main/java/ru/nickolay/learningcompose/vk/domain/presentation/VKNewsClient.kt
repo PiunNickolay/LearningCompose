@@ -36,9 +36,6 @@ import ru.nickolay.learningcompose.vk.domain.viewModel.NewsFeedViewModel
 @Composable
 fun VKNewsClient() {
     val navigationState = rememberNavigationState()
-    val commentsToPost: MutableState<FeedPost?> = remember {
-        mutableStateOf(null)
-    }
     Scaffold(
         bottomBar = {
             NavigationBar {
@@ -75,17 +72,16 @@ fun VKNewsClient() {
                 MainScreen(
                     paddingValues = PaddingValues(),
                     onCommentClickListener = {
-                        commentsToPost.value = it
-                        navigationState.navigateToComments()
+                        navigationState.navigateToComments(it)
                     }
                 )
             },
-            commentsScreen = {
+            commentsScreen = { feedPost ->
                 CommentScreen(
                     onBackPressed = {
                         navigationState.navHostController.popBackStack()
                     },
-                    feedPost = commentsToPost.value!!
+                    feedPost = feedPost
                 )
             },
             profileScreen = {
