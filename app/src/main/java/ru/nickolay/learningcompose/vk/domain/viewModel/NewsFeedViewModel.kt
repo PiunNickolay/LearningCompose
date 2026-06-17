@@ -7,11 +7,16 @@ import ru.nickolay.learningcompose.vk.domain.model.FeedPost
 import ru.nickolay.learningcompose.vk.domain.model.StatisticItem
 import ru.nickolay.learningcompose.vk.domain.state.NewsFeedScreenState
 
-class NewsFeedViewModel: ViewModel() {
+class NewsFeedViewModel : ViewModel() {
 
     private val sourceList = mutableListOf<FeedPost>().apply {
         repeat(10) {
-            add(FeedPost(id = it))
+            add(
+                FeedPost(
+                    id = it,
+                    contentText = "Content $it"
+                )
+            )
         }
     }
     private val initialState = NewsFeedScreenState.Posts(sourceList)
@@ -24,9 +29,9 @@ class NewsFeedViewModel: ViewModel() {
         val oldPosts = currentState.posts.toMutableList()
         val oldStatistics = feedPost.statistic
         val newStatistics = oldStatistics.toMutableList().apply {
-            replaceAll {oldItem ->
+            replaceAll { oldItem ->
                 if (oldItem.type == item.type) {
-                    oldItem.copy(count = oldItem.count+1)
+                    oldItem.copy(count = oldItem.count + 1)
                 } else {
                     oldItem
                 }
