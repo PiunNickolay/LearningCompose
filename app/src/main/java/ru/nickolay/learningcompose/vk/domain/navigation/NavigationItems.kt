@@ -8,7 +8,19 @@ sealed class NavigationItems(
     val titleResId: Int,
     val image: Int
 ) {
-    object Home: NavigationItems(Screens.NewsFeed,R.string.navigation_item_main,  R.drawable.ic_home)
-    object Favorite: NavigationItems(Screens.Favorite, R.string.navigation_item_favorite, image = R.drawable.ic_like_selected)
-    object Profile: NavigationItems(Screens.Profile, R.string.navigation_item_profile, R.drawable.ic_profile)
+    object Home: NavigationItems(
+        Screens.Home,
+        R.string.navigation_item_main,
+        R.drawable.ic_home
+    )
+    object Favorite: NavigationItems(
+        Screens.Favorite,
+        R.string.navigation_item_favorite,
+        image = R.drawable.ic_like_selected
+    )
+    object Profile: NavigationItems(
+        Screens.Profile,
+        R.string.navigation_item_profile,
+        R.drawable.ic_profile
+    )
 }
