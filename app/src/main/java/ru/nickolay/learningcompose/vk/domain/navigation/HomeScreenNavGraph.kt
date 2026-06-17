@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.google.gson.Gson
 import ru.nickolay.learningcompose.vk.domain.model.FeedPost
 
 fun NavGraphBuilder.homeScreenNavGraph(
@@ -23,13 +24,14 @@ fun NavGraphBuilder.homeScreenNavGraph(
         composable(
             route = Screens.Comments.route,
             arguments = listOf(
-                navArgument(Screens.KEY_FEED_POST_ID) {
-                    type = NavType.IntType
+                navArgument(Screens.KEY_FEED_POST) {
+                    type = FeedPost.NavigationType
                 }
             )
         ) {
-            val feedPostId = it.arguments?.getInt(Screens.KEY_FEED_POST_ID ) ?: 0
-            commentsScreen(FeedPost(feedPostId))
+            val feedPost = it.arguments?.getParcelable<FeedPost>(Screens.KEY_FEED_POST)
+                ?: throw RuntimeException("ERROR")
+            commentsScreen(feedPost)
         }
     }
 }

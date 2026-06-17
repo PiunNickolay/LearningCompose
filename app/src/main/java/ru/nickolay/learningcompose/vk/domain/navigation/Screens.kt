@@ -1,5 +1,7 @@
 package ru.nickolay.learningcompose.vk.domain.navigation
 
+import com.google.gson.Gson
+import ru.nickolay.learningcompose.vk.domain.extension.encode
 import ru.nickolay.learningcompose.vk.domain.model.FeedPost
 
 sealed class Screens(
@@ -12,16 +14,18 @@ sealed class Screens(
     object Comments : Screens(ROUTE_COMMENTS) {
         private const val ROUTE_FOR_ARGS = "comments"
         fun getRouteWithArgs(feedPost: FeedPost): String {
-            return "$ROUTE_FOR_ARGS/${feedPost.id}"
+            val feedPostJson = Gson().toJson(feedPost)
+            return "$ROUTE_FOR_ARGS/${feedPostJson.encode()}"
         }
     }
 
     companion object {
-        const val KEY_FEED_POST_ID = "feed_post_id"
-        const val ROUTE_COMMENTS = "comments/{$KEY_FEED_POST_ID}"
+        const val KEY_FEED_POST = "feed_post"
+        const val ROUTE_COMMENTS = "comments/{$KEY_FEED_POST}"
         const val ROUTE_HOME = "home"
         const val ROUTE_NEWS_FEED = "news_feed"
         const val ROUTE_FAVOURITE = "favourite"
         const val ROUTE_PROFILE = "profile"
     }
 }
+
